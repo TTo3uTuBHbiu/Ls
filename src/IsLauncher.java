@@ -4,6 +4,8 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.CmdLineException;
+
+import java.io.File;
 import java.io.IOException;
 
 
@@ -11,18 +13,18 @@ public class IsLauncher {
 
 
     @Option(name = "-l", usage = "Вывод")
-    private boolean longOutputing;
+    public static boolean longOutputing;
     @Option(name = "-h", usage = "Вывод в человеко-читаемый формат")
-    private boolean humanOutputing;
+    public static boolean humanOutputing;
     @Option(name = "-r", usage = "Противоположный порядок вывода")
-    private boolean reversing;
+    public static boolean reversing;
     @Option(name = "-o", usage = "Вывод результата в файл")
-    private String output;
+    public static boolean output;
 
     @Argument(required = true, usage = "Расположение входного файла")
-    private String input;
+    public static String input;
 
-
+    public String output1;
     public static void main(String[] args) {
         new IsLauncher().launch(args);
     }
@@ -38,31 +40,39 @@ public class IsLauncher {
             return;
         }
 
-        Is is = new Is(input, output);
-        if (longOutputing) {
+        Is is = new Is(output1);
+        if (longOutputing&&!humanOutputing&&!reversing&&!output) {
             try {
                 is.longOutputing();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if (humanOutputing) {
+        } else if (longOutputing && humanOutputing&&!reversing&&!output) {
             try {
                 is.humanOutputing();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-        } else if (reversing) {
+        } else if ((longOutputing && reversing&&!output)||(longOutputing && humanOutputing && reversing&&!output)) {
             try {
                 is.reversing();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+        } else if ((longOutputing && output)||(longOutputing && humanOutputing && output)
+                ||(longOutputing && humanOutputing && reversing && output)) {
+            try {
+                is.outputing();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else System.out.print("Неверный порядок флагов");
         }
     }
 
-}
+
 
 
 

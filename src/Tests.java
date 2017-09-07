@@ -11,7 +11,6 @@ public class Tests {
 
     @Test
     public void encode() throws IOException {
-        assertEquals("C:\\Users\\z\\IdeaProjects\\Is\\src\\Files", Is.reader(file));
         assertEquals("File1  \tфайл\tПрава доступа - 111\tДата последнего изменения - Tue Jun 20 18:50:47 GMT+03:00 2017\tРазмер файла - 85 бит\n" +
                         "File2  \tфайл\tПрава доступа - 111\tДата последнего изменения - Tue Jun 20 17:44:15 GMT+03:00 2017\tРазмер файла - 170 бит\n" +
                         "File3  \tфайл\tПрава доступа - 111\tДата последнего изменения - Thu Jun 22 16:35:04 GMT+03:00 2017\tРазмер файла - 113610 бит\n" +

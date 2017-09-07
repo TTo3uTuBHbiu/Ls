@@ -7,37 +7,21 @@ import java.util.ArrayList;
 
 public class Is {
 
-    private static File input;
-    private static File output;
+    public static File input;
+    public static File output;
 
-    public Is(String dirIn, String output1) {
 
-        input = new File(dirIn);
+    public Is(String output1) {
+
+        input = new File(IsLauncher.input);
         if (output1 == null) output = new File("output.txt");
         else output = new File(output1);
 
     }
 
 
-    public static String reader(File inp) throws IOException {
-        String result = "";
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(inp));
-            String strLine;
-            while ((strLine = br.readLine()) != null) {
-                result += strLine;
-
-            }
-        } catch (IOException e) {
-            System.out.println("Ошибка");
-        }
-
-        return result;
-    }
-
-
     public static String longOutput(File DirInput) throws IOException {
-        String l = reader(DirInput);
+        String l = IsLauncher.input;
         File Direct = new File(l);
 
 
@@ -64,7 +48,7 @@ public class Is {
                 long time = item.lastModified();
                 result += "\tДата последнего изменения - " + new Date(time);
 
-                result += "\tРазмер файла - " + item.length() + " бит" + "\n";
+                result += "\tРазмер файла - " + item.length() * 8 + " бит" + "\n";
             }
 
         }
@@ -72,10 +56,9 @@ public class Is {
     }
 
     public static String humanOutput(File DirInput) throws IOException {
-        String l = reader(DirInput);
+
+        String l = IsLauncher.input;
         File Direct = new File(l);
-
-
         String result = "";
 
         if (Direct.isDirectory()) {
@@ -108,13 +91,13 @@ public class Is {
                 else {
                     if (item.length() < 8) result += "\tРазмер файла - " + item.length() + " бит" + "\n";
                     if ((item.length() >= 8) && (item.length() < 1024 * 8))
-                        result += "\tРазмер файла - " + item.length() / 8 + " байт" + "\n";
+                        result += "\tРазмер файла - " + item.length() + " байт" + "\n";
                     if ((item.length() >= 1024 * 8) && (item.length() < 1024 * 1024 * 8))
-                        result += "\tРазмер файла - " + (item.length() / 8) / 1024 + " килобайт" + "\n";
+                        result += "\tРазмер файла - " + (item.length()) / 1024 + " килобайт" + "\n";
                     if ((item.length() >= 1024 * 1024 * 8) && (item.length() < 1024 * 1024 * 1024 * 8))
-                        result += "\tРазмер файла - " + ((item.length() / 8) / 1024) / 1024 + " мегобайт" + "\n";
-                    if ((item.length() >= 1024 * 1024 * 1024 * 8) && (item.length() < 1024 * 1024 * 1024 * 1024 * 8))
-                        result += "\tРазмер файла - " + (((item.length() / 8) / 1024) / 1024) / 1024 + " гигобайт" + "\n";
+                        result += "\tРазмер файла - " + ((item.length()) / 1024) / 1024 + " мегобайт" + "\n";
+                    if ((item.length() >= 1024 * 1024 * 1024 * 8) && (item.length() < 1024 * 1024 * 1024 * 1024))
+                        result += "\tРазмер файла - " + (((item.length()) / 1024) / 1024) / 1024 + " гигобайт" + "\n";
                 }
             }
 
@@ -125,7 +108,16 @@ public class Is {
 
     public static String reverse(File in) throws IOException {
         String result = "";
-        String result1 = humanOutput(in);
+        String result1 = "";
+
+        if (IsLauncher.humanOutputing) {
+            result1 = humanOutput(in);
+        }
+
+        if (IsLauncher.longOutputing&&!IsLauncher.humanOutputing) {
+            result1 = longOutput(in);
+        }
+
         ArrayList<String> strings = new ArrayList<>();
         int count = -1;
         try {
@@ -144,49 +136,28 @@ public class Is {
         return result;
     }
 
-    public void reversing() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(input))) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(output))) {
-                if ((reader.readLine()) != null) {
-                    writer.write(reverse(input));
 
-                }
-            }
-        }
+    public void reversing() throws IOException {
+            System.out.print(reverse(input));
     }
 
     public void longOutputing() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(input))) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(output))) {
-                while ((reader.readLine()) != null) {
-                    writer.write(longOutput(input));
-
-                }
-            }
-        }
+            System.out.print(longOutput(input));
     }
 
 
     public void humanOutputing() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(input))) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(output))) {
-                while ((reader.readLine()) != null) {
-                    writer.write(humanOutput(input));
+            System.out.print(humanOutput(input));
+    }
 
-                }
-            }
+    public void outputing() throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(output))) {
+             if(IsLauncher.longOutputing&&!IsLauncher.humanOutputing&&!IsLauncher.reversing)writer.write(longOutput(input));
+            if(IsLauncher.humanOutputing&&!IsLauncher.reversing)writer.write(humanOutput(input));
+            if(IsLauncher.reversing)writer.write(reverse(input));
         }
+    }
     }
 
 
-    public static void main(String[] args) throws FileNotFoundException {
-        try {
-            File np = new File("C:\\Users\\z\\IdeaProjects\\Is\\input.txt");
 
-            System.out.print(reader(np));
-        } catch (IOException e) {
-            System.out.println("Ошибка");
-        }
-
-    }
-}
