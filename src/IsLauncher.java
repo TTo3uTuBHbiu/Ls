@@ -25,6 +25,7 @@ public class IsLauncher {
     public static String input;
 
     public String output1;
+
     public static void main(String[] args) {
         new IsLauncher().launch(args);
     }
@@ -41,36 +42,35 @@ public class IsLauncher {
         }
 
         Is is = new Is(output1);
-        if (longOutputing&&!humanOutputing&&!reversing&&!output) {
+        if (longOutputing && !humanOutputing && !reversing && !output) {
             try {
                 is.longOutputing();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if (longOutputing && humanOutputing&&!reversing&&!output) {
+        } else if (longOutputing && humanOutputing && !reversing && !output) {
             try {
                 is.humanOutputing();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-        } else if ((longOutputing && reversing&&!output)||(longOutputing && humanOutputing && reversing&&!output)) {
+        } else if ((longOutputing && reversing && !output) || (longOutputing && humanOutputing && reversing && !output)) {
             try {
                 is.reversing();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if ((longOutputing && output)||(longOutputing && humanOutputing && output)
-                ||(longOutputing && humanOutputing && reversing && output)) {
+        } else if ((longOutputing && output) || (longOutputing && humanOutputing && output)
+                || (longOutputing && humanOutputing && reversing && output)) {
             try {
                 is.outputing();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        else System.out.print("Неверный порядок флагов");
-        }
+        } else System.out.print("Неверный порядок флагов");
     }
+}
 
 
 

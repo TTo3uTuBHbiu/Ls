@@ -1,6 +1,7 @@
 /**
  * Created by z on 07.06.2017.
  */
+
 import java.util.Date;
 import java.io.*;
 import java.util.ArrayList;
@@ -114,7 +115,7 @@ public class Is {
             result1 = humanOutput(in);
         }
 
-        if (IsLauncher.longOutputing&&!IsLauncher.humanOutputing) {
+        if (IsLauncher.longOutputing && !IsLauncher.humanOutputing) {
             result1 = longOutput(in);
         }
 
@@ -138,26 +139,27 @@ public class Is {
 
 
     public void reversing() throws IOException {
-            System.out.print(reverse(input));
+        System.out.print(reverse(input));
     }
 
     public void longOutputing() throws IOException {
-            System.out.print(longOutput(input));
+        System.out.print(longOutput(input));
     }
 
 
     public void humanOutputing() throws IOException {
-            System.out.print(humanOutput(input));
+        System.out.print(humanOutput(input));
     }
 
     public void outputing() throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(output))) {
-             if(IsLauncher.longOutputing&&!IsLauncher.humanOutputing&&!IsLauncher.reversing)writer.write(longOutput(input));
-            if(IsLauncher.humanOutputing&&!IsLauncher.reversing)writer.write(humanOutput(input));
-            if(IsLauncher.reversing)writer.write(reverse(input));
+            if (IsLauncher.longOutputing && !IsLauncher.humanOutputing && !IsLauncher.reversing)
+                writer.write(longOutput(input));
+            if (IsLauncher.humanOutputing && !IsLauncher.reversing) writer.write(humanOutput(input));
+            if (IsLauncher.reversing) writer.write(reverse(input));
         }
     }
-    }
+}
 
 
 
